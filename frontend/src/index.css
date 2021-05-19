@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
+
+.thumb,
+.thumb::-webkit-slider-thumb {
+  @apply appearance-none;
+}
+
+.thumb {
+  @apply pointer-events-none absolute h-0 w-64 outline-none;
+}
+
+.thumb::-webkit-slider-thumb {
+  @apply bg-gray-100 border-none rounded-full cursor-pointer h-6 w-6 mt-1 pointer-events-auto relative;
+}
+
+.thumb-left::-webkit-slider-thumb {
+  @apply z-30;
+}
+
+.thumb-right::-webkit-slider-thumb {
+  @apply z-40;
+}
+
 @tailwind utilities;

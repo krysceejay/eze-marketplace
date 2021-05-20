@@ -1,5 +1,5 @@
-import { useState, useRef, useCallback, useEffect } from "react"
-import PropTypes from "prop-types"
+import { useState, useRef, useCallback, useEffect } from 'react'
+import PropTypes from 'prop-types'
 
 const Slider = ({min, max}) => {
     // Creating the state variables
@@ -35,7 +35,7 @@ const Slider = ({min, max}) => {
         range.current.style.width = `${maxPercent - minPercent}%`
       }
     }, [maxVal, getPercent])
-    
+
     return (
         <div className="relative">
             <input

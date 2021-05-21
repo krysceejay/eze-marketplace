@@ -51,4 +51,24 @@ exports.addDevice = asyncHandler(async (req, res) => {
   } else {
     return res.status(400).json({err: 'An error occurred'})
   }
-})  
+}) 
+
+// @desc    Search For device
+// @route   POST /api/device/search
+// @access  Public
+exports.searchDevice = asyncHandler(async (req, res) => {
+  const {search} = req.body
+  const searchArr = search.split(',')
+  const devices = await BuyRequest.find({ $or: [{ name: { $in: searchArr} }, { grade: { $in: searchArr} }, { storageSize: { $in: searchArr} }] })
+  res.json(devices)
+}) 
+
+// @desc    Filter device
+// @route   POST /api/device/filter
+// @access  Public
+exports.filterDevice = asyncHandler(async (req, res) => {
+  const { category, minPrice, maxPrice, storage } = req.body
+
+  const devices = await BuyRequest.find({ name: { $regex: category }, storageSize: { $regex: storage }, price: { $gte: minPrice, $lte: maxPrice } })
+  res.json(devices)
+}) 

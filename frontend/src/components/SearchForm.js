@@ -1,7 +1,11 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import axios from 'axios'
+import {DataContext} from '../store/context'
 
 const SearchForm = () => {
     const [search, setSearch] = useState('')
+    const {dispatch} = useContext(DataContext)
+
     const handleOnchange = e => {
         const {value} = e.target
         setSearch(value)
@@ -9,7 +13,15 @@ const SearchForm = () => {
 
     const handleSubmit = async e => {
         e.preventDefault()
-        //console.log(search)
+        const { data } = await axios.post('/api/device/search',
+            { search },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+          )
+        dispatch({ type: 'SEARCH_DEVICES', payload: data })
     }
     return (
         <form className="flex flex-row mt-8" onSubmit={handleSubmit}>

@@ -5,6 +5,7 @@ import {DataContext} from '../store/context'
 import SearchForm from '../components/SearchForm'
 
 const Home = () => {
+
     const {state, dispatch} = useContext(DataContext)
     const { devices } = state
 

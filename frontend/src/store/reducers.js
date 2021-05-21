@@ -13,6 +13,18 @@ const reducers = (state, action) => {
                 devices: payload
             };
 
+        case TYPES.SEARCH_DEVICES:
+            return {
+                ...state,
+                devices: payload
+            };
+
+        case TYPES.FILTER_DEVICE:
+            return {
+                ...state,
+                devices: payload
+            };
+
         default:
             return state
     }

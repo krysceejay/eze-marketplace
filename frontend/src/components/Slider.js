@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-const Slider = ({min, max}) => {
+const Slider = ({min, max, minmax}) => {
     // Creating the state variables
   const [minVal, setMinVal] = useState(min)
   const [maxVal, setMaxVal] = useState(max)
@@ -37,7 +37,7 @@ const Slider = ({min, max}) => {
     }, [maxVal, getPercent])
 
     return (
-        <div className="relative">
+        <div>
             <input
               type="range"
               min={min}
@@ -47,6 +47,7 @@ const Slider = ({min, max}) => {
               onChange={event => {
                 const value = Math.min(Number(event.target.value), maxVal - 1);
                 setMinVal(value);
+                minmax('minPrice', value)
                 minValRef.current = value;
               }}
               style={{ zIndex: minVal > max - 100 && "5" }}
@@ -60,6 +61,7 @@ const Slider = ({min, max}) => {
               onChange={event => {
                 const value = Math.max(Number(event.target.value), minVal + 1);
                 setMaxVal(value);
+                minmax('maxPrice', value)
                 maxValRef.current = value;
              }}
             />
@@ -67,9 +69,14 @@ const Slider = ({min, max}) => {
               <div className="rounded h-2 absolute bg-gray-700 w-full z-10" />
               <div ref={range} className="rounded h-2 absolute bg-gray-100 z-20" />
             </div>
+             <br />
+            <div className="">
+                <input readOnly className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" type="text" value={minVal} placeholder="Min" />
+                <input readOnly className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" value={maxVal} placeholder="Max" />
+            </div>
 
-            {/* <div className="slider__left-value">{minVal}</div>
-            <div className="slider__right-value">{maxVal}</div> */}
+            {/* <div className="rounded w-full py-2 px-3 mb-4 bg-white">{minVal}</div>
+            <div className="rounded w-full py-2 px-3 bg-white">{maxVal}</div> */}
         </div>
     )
 }

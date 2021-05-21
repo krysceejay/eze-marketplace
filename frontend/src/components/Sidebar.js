@@ -25,6 +25,7 @@ const Sidebar = () => {
 
     useEffect(() => {
         const filterDevice = async () => {
+            dispatch({ type: 'LOADING' })
             const { data } = await axios.post('/api/device/filter',
             { category, minPrice, maxPrice, storage },
             {

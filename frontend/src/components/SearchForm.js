@@ -13,6 +13,7 @@ const SearchForm = () => {
 
     const handleSubmit = async e => {
         e.preventDefault()
+        dispatch({ type: 'LOADING' })
         const { data } = await axios.post('/api/device/search',
             { search },
             {

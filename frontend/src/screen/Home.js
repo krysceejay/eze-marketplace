@@ -3,22 +3,26 @@ import axios from 'axios'
 import Sidebar from '../components/Sidebar'
 import {DataContext} from '../store/context'
 import SearchForm from '../components/SearchForm'
+import Loader from '../components/Loader'
+import Pagination from '../components/Pagination'
 
-const Home = () => {
-
+const Home = ({match}) => {
     const {state, dispatch} = useContext(DataContext)
-    const { devices } = state
+    const {devices, curpage, pages, isLoading} = state
+
+    const pageNumber = match.params.pageNumber || 1
 
     useEffect(() => {
+        dispatch({ type: 'LOADING' })
         const getDevices = async () => {
-          const {data} = await axios.get('/api/device')
+          const {data} = await axios.get(`/api/device?pageNumber=${pageNumber}`)
           dispatch({ type: 'GET_DEVICES', payload: data })
         }
         getDevices()
-      }, [dispatch])
+      }, [dispatch, pageNumber])
 
     return (
-        <div className="App">
+        <div>
       <header className="flex bg-black px-10 py-4">
         <div className="flex-1">
           <h2 className="text-3xl font-semibold leading-normal tracking-wider text-white">SHOP OUR LATEST <br />AVAILABLE STOCK HERE</h2>
@@ -33,7 +37,11 @@ const Home = () => {
       <main className="flex bg-black py-8">
         <Sidebar />
         <section className="flex-1 bg-black px-10">
-          <div className="grid grid-cols-5 gap-4">
+          
+          { isLoading ? 
+            <Loader /> : 
+            <>
+            <div className="grid grid-cols-5 gap-4">
             {devices.map(device => (
               <div key={device._id} className="bg-gray-900 py-8 relative">
                 <div className="w-full h-32">
@@ -52,11 +60,15 @@ const Home = () => {
                 <span className="absolute top-2 right-2 border border-gray-100 rounded-sm text-white text-xs px-2">{device.grade}</span>
               </div>
             ))}
-            
-          </div>
+            </div>
+            <div className="mt-8">
+                <Pagination pages={pages} curpage={curpage} />
+            </div>
+            </>
+            }
         </section>
       </main>
-    </div>
+      </div>
     )
 }
 

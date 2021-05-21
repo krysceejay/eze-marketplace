@@ -6,6 +6,8 @@ const SellRequest = require('../models/SellRequest')
 // @route GET /api/device
 // @access  Public
 exports.getAllDevice = asyncHandler (async (req, res) => {
+  const pageSize = 2
+  const curpage = Number(req.query.pageNumber) || 1
   let devices;
   if(req.query.filter){
     switch (req.query.filter) {
@@ -25,8 +27,13 @@ exports.getAllDevice = asyncHandler (async (req, res) => {
       return res.json(devices)
     }
   }
-    const buyRequest = await BuyRequest.find({})
-    res.json(buyRequest)
+
+    const count = await BuyRequest.countDocuments({})
+    devices = await BuyRequest.find({})
+                    .limit(pageSize)
+                    .skip(pageSize * (curpage - 1))
+
+    res.json({devices, curpage, pages: Math.ceil(count / pageSize)})
   })
 
 // @desc    Add a new device
@@ -57,18 +64,33 @@ exports.addDevice = asyncHandler(async (req, res) => {
 // @route   POST /api/device/search
 // @access  Public
 exports.searchDevice = asyncHandler(async (req, res) => {
+  const pageSize = 2
+  const curpage = Number(req.query.pageNumber) || 1
   const {search} = req.body
   const searchArr = search.split(',')
+
+  const count = await BuyRequest.countDocuments({ $or: [{ name: { $in: searchArr} }, { grade: { $in: searchArr} }, { storageSize: { $in: searchArr} }] })
+
   const devices = await BuyRequest.find({ $or: [{ name: { $in: searchArr} }, { grade: { $in: searchArr} }, { storageSize: { $in: searchArr} }] })
-  res.json(devices)
+                  .limit(pageSize)
+                  .skip(pageSize * (curpage - 1)) 
+
+  res.json({devices, curpage, pages: Math.ceil(count / pageSize)})
 }) 
 
 // @desc    Filter device
 // @route   POST /api/device/filter
 // @access  Public
 exports.filterDevice = asyncHandler(async (req, res) => {
+  const pageSize = 2
+  const curpage = Number(req.query.pageNumber) || 1
   const { category, minPrice, maxPrice, storage } = req.body
 
+  const count = await BuyRequest.countDocuments({ name: { $regex: category }, storageSize: { $regex: storage }, price: { $gte: minPrice, $lte: maxPrice } })
+
   const devices = await BuyRequest.find({ name: { $regex: category }, storageSize: { $regex: storage }, price: { $gte: minPrice, $lte: maxPrice } })
-  res.json(devices)
+                  .limit(pageSize)
+                  .skip(pageSize * (curpage - 1))  
+
+  res.json({devices, curpage, pages: Math.ceil(count / pageSize)})
 }) 

@@ -1,4 +1,4 @@
-import { useEffect, useContext, useRef } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import axios from 'axios'
 import Sidebar from '../components/Sidebar'
 import {DataContext} from '../store/context'
@@ -7,6 +7,7 @@ import Loader from '../components/Loader'
 import Pagination from '../components/Pagination'
 
 const Home = ({match}) => {
+    const [show, setShow] = useState('Show')
     const filterRef = useRef()
     const {state, dispatch} = useContext(DataContext)
     const {devices, curpage, pages, isLoading} = state
@@ -24,13 +25,16 @@ const Home = ({match}) => {
 
     const handleShow = () => {
       filterRef.current.classList.toggle("show")
+      if (filterRef.current?.classList.contains("show")) return setShow('Hide')
+        return setShow('Show')
+      
     }  
 
     return (
-        <div>
+        <div className="bg-black">
       <header className="flex bg-black px-10 py-4 items-center">
         <div className="flex-1">
-          <h2 className="text-3xl font-semibold leading-normal tracking-wider text-white">SHOP OUR LATEST <br />AVAILABLE STOCK HERE</h2>
+          <h2 className="text-2xl sm:text-3xl font-semibold leading-normal tracking-wider text-white">SHOP OUR LATEST <br />AVAILABLE STOCK HERE</h2>
           <SearchForm />
         </div>
         <div className="hidden md:block flex-1">
@@ -39,14 +43,14 @@ const Home = ({match}) => {
           </div>
         </div>
       </header>
-      <main className="flex bg-black pt-8">
-        <aside ref={filterRef} className="filter-block transform -translate-x-full md:translate-x-0 flex-none bg-gray-900 px-8 md:px-10 py-8 md:w-1/4 md:static md:block">
+      <main className="flex bg-black py-8">
+        <aside ref={filterRef} className="filter-block overflow-y-scroll transform -translate-x-full md:translate-x-0 flex-none bg-gray-900 px-6 md:px-10 py-8 md:w-1/4 md:static md:block">
           <Sidebar />
         </aside>
         <section className="flex-1 bg-black px-6 md:px-10">
         <div className="flex justify-end md:hidden">
           <span onClick={handleShow} className="mb-4 mt-3 block bg-blue-500 hover:bg-blue-700 text-white text-sm py-1 px-2 shadow-none outline-none border-0 rounded md:hidden">
-              Show / Hide Filter
+              {show} Filter
           </span>
         </div>
           { isLoading ? 

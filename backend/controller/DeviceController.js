@@ -8,7 +8,8 @@ const SellRequest = require('../models/SellRequest')
 exports.getAllDevice = asyncHandler (async (req, res) => {
   const pageSize = 3
   const curpage = Number(req.query.pageNumber) || 1
-  let devices;
+  let devices
+
   if(req.query.filter){
     switch (req.query.filter) {
       case 'buy-request':
@@ -67,11 +68,12 @@ exports.searchDevice = asyncHandler(async (req, res) => {
   const pageSize = 3
   const curpage = Number(req.query.pageNumber) || 1
   const {search} = req.body
-  const searchArr = search.split(',')
+  const pipe = search.replace(/[ ]*,[ ]*|[ ]+/g, "|")
+  const re = new RegExp(pipe, "i")
 
-  const count = await BuyRequest.countDocuments({ $or: [{ name: { $in: searchArr} }, { grade: { $in: searchArr} }, { storageSize: { $in: searchArr} }] })
+  const count = await BuyRequest.countDocuments({ $or: [{ name: { $in: [re]} }, { grade: { $in: [re]} }, { storageSize: { $in: [re]} }] })
 
-  const devices = await BuyRequest.find({ $or: [{ name: { $in: searchArr} }, { grade: { $in: searchArr} }, { storageSize: { $in: searchArr} }] })
+  const devices = await BuyRequest.find({ $or: [{ name: { $in: [re]} }, { grade: { $in: [re]} }, { storageSize: { $in: [re]} }] })
                   .limit(pageSize)
                   .skip(pageSize * (curpage - 1)) 
 
@@ -86,9 +88,9 @@ exports.filterDevice = asyncHandler(async (req, res) => {
   const curpage = Number(req.query.pageNumber) || 1
   const { category, minPrice, maxPrice, storage } = req.body
 
-  const count = await BuyRequest.countDocuments({ name: { $regex: category }, storageSize: { $regex: storage }, price: { $gte: minPrice, $lte: maxPrice } })
+  const count = await BuyRequest.countDocuments({ name: { $regex: category, $options: 'i' }, storageSize: { $regex: storage, $options: 'i' }, price: { $gte: minPrice, $lte: maxPrice } })
 
-  const devices = await BuyRequest.find({ name: { $regex: category }, storageSize: { $regex: storage }, price: { $gte: minPrice, $lte: maxPrice } })
+  const devices = await BuyRequest.find({ name: { $regex: category, $options: 'i' }, storageSize: { $regex: storage, $options: 'i' }, price: { $gte: minPrice, $lte: maxPrice } })
                   .limit(pageSize)
                   .skip(pageSize * (curpage - 1))  
 

@@ -24,7 +24,6 @@ app.use(express.json())
 //Use routes
 app.use('/api/device', users)
 
-//app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../frontend/build')))

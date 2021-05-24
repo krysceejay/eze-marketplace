@@ -6,7 +6,7 @@ const SellRequest = require('../models/SellRequest')
 // @route GET /api/device
 // @access  Public
 exports.getAllDevice = asyncHandler (async (req, res) => {
-  const pageSize = 2
+  const pageSize = 3
   const curpage = Number(req.query.pageNumber) || 1
   let devices;
   if(req.query.filter){
@@ -64,7 +64,7 @@ exports.addDevice = asyncHandler(async (req, res) => {
 // @route   POST /api/device/search
 // @access  Public
 exports.searchDevice = asyncHandler(async (req, res) => {
-  const pageSize = 2
+  const pageSize = 3
   const curpage = Number(req.query.pageNumber) || 1
   const {search} = req.body
   const searchArr = search.split(',')
@@ -82,7 +82,7 @@ exports.searchDevice = asyncHandler(async (req, res) => {
 // @route   POST /api/device/filter
 // @access  Public
 exports.filterDevice = asyncHandler(async (req, res) => {
-  const pageSize = 2
+  const pageSize = 3
   const curpage = Number(req.query.pageNumber) || 1
   const { category, minPrice, maxPrice, storage } = req.body
 

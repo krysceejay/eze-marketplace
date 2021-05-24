@@ -41,7 +41,7 @@ const Sidebar = () => {
      
 
     return (
-        <aside className="flex-none w-1/4 bg-gray-900 px-10 py-8">
+        <>
         <section id="categories" className="mb-10">
           <h3 className="text-white mb-4 text-xl">Categories</h3>
           <div className="flex flex-col">
@@ -67,7 +67,9 @@ const Sidebar = () => {
         </section>
         <section id="price-filter" className="mb-10">
           <h3 className="text-white mb-6 text-xl">Price Filter</h3>
-          <Slider min={0} max={1000} minmax={getMinMax} />
+          <div className="w-full">
+            <Slider min={0} max={1000} minmax={getMinMax} />
+          </div>
         </section>
 
         <section id="storage-filter" className="mb-10">
@@ -93,7 +95,7 @@ const Sidebar = () => {
             </label>
         </div>
         </section>
-      </aside>
+      </>
     )
 }
 

@@ -13,6 +13,8 @@ node_modules/
 # production
 /frontend/build
 
+eze-marketplace.json
+
 # misc
 .DS_Store
 .env

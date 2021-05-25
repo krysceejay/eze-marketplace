@@ -71,8 +71,8 @@ const Slider = ({min, max, minmax}) => {
             </div>
              <br />
             <div className="">
-                <input readOnly className="shadow appearance-none border rounded w-32 md:w-full py-2 px-3 block text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" type="text" value={`$ ${minVal}`} placeholder="Min" />
-                <input readOnly className="shadow appearance-none border rounded w-32 md:w-full py-2 px-3 block text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" value={`$ ${maxVal}`} placeholder="Max" />
+                <input readOnly className="shadow appearance-none border rounded w-32 md:w-full py-2 px-3 block text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" type="text" value={`Min: $ ${minVal}`} placeholder="Min" />
+                <input readOnly className="shadow appearance-none border rounded w-32 md:w-full py-2 px-3 block text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" value={`Max: $ ${maxVal}`} placeholder="Max" />
             </div>
 
             {/* <div className="rounded w-full py-2 px-3 mb-4 bg-white">{minVal}</div>

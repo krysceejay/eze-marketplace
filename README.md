@@ -27,11 +27,9 @@ Launches the test runner in the interactive watch mode.
 
 See live demo [Eze MarketPlace](https://ezemarketplace.herokuapp.com).
 
-![Alt Text](/screenshot.png)
-
 ![Alt Text](/page.gif)
 
-**Note: Add a .env in the project root and define your environment variables.**
+**Note: Add a .env file in the project root and define your environment variables.**
 
 ##### `PORT=5001 `
 
